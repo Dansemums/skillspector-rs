@@ -60,7 +60,8 @@ numbers plus the first differences per rule id.
 
 LLM analyzers and the meta analyzer, SC4, trigger analysis (TR1-TR3), P5, TP1-TP3, deserialization,
 structured-role and bundled-execution-surface checks, OMS signature projection, transitive references,
-MCP registry mode, baselines, time budgets, the inspection ledger, finding caps and windowing of very
+MCP registry mode, baselines, time budgets, the inspection ledger (so `risk_assessment.recommendation` never
+sees an incomplete analysis), finding caps and windowing of very
 large files. See the roadmap in the README. A few security views with no finding on the corpus
 (`prompt_injection_letter_spacing_view` and some continuity/declared-marker projections) are also
 missing; heavily obfuscated skills may therefore differ.

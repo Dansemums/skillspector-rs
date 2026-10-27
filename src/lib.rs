@@ -57,11 +57,13 @@ pub(crate) mod text;
 pub(crate) mod unicode;
 #[rustfmt::skip]
 pub(crate) mod unicode_tables;
+pub(crate) mod risk;
 #[doc(hidden)] // used by tests/views.rs
 pub mod views;
 pub(crate) mod whitespace_padding;
 
 pub use issue::{Issue, Severity};
+pub use risk::Risk;
 pub use skill::Skill;
 
 use analyzer::{registry, static_modules};
@@ -100,25 +102,40 @@ fn on_scan_pool<T: Send>(job: impl FnOnce() -> T + Send) -> T {
 /// # Errors
 /// Fails when the folder itself cannot be read.
 pub fn scan_skill(root: &Path) -> std::io::Result<Vec<Issue>> {
+    scan_skill_with_risk(root).map(|(issues, _)| issues)
+}
+
+/// Like [`scan_skill`], and also returns SkillSpector's overall [`Risk`] verdict for the folder.
+///
+/// # Errors
+/// Fails when the folder itself cannot be read.
+pub fn scan_skill_with_risk(root: &Path) -> std::io::Result<(Vec<Issue>, Risk)> {
     on_scan_pool(|| {
         let skill = Skill::read(root)?;
-        Ok(scan_loaded(&skill))
+        Ok(scan_on_current_thread(&skill))
     })
 }
 
 /// Runs every analyzer over a skill that is already in memory.
 #[must_use]
 pub fn scan_loaded(skill: &Skill) -> Vec<Issue> {
+    scan_loaded_with_risk(skill).0
+}
+
+/// Like [`scan_loaded`], and also returns the overall [`Risk`] verdict.
+#[must_use]
+pub fn scan_loaded_with_risk(skill: &Skill) -> (Vec<Issue>, Risk) {
     on_scan_pool(|| scan_on_current_thread(skill))
 }
 
-fn scan_on_current_thread(skill: &Skill) -> Vec<Issue> {
+fn scan_on_current_thread(skill: &Skill) -> (Vec<Issue>, Risk) {
     let analyzers = registry();
     let static_mods = static_modules();
     let refs: Vec<&dyn runner::StaticModule> = static_mods.iter().map(AsRef::as_ref).collect();
     let mut raw: Vec<RawFinding> = analyzers.par_iter().flat_map(|a| a.run(skill)).collect();
     raw.extend(runner::run_static(skill, &refs));
+    let risk = risk::assess(&raw, skill);
     let mut issues = dedupe::finalize(raw);
     issues.sort_by(|a, b| (&a.file, a.start_line, &a.id).cmp(&(&b.file, b.start_line, &b.id)));
-    issues
+    (issues, risk)
 }

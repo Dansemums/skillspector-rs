@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `risk_assessment` (score, severity, recommendation, max issue severity) in JSON and text output, and
+  `scan_skill_with_risk` / `scan_loaded_with_risk` / `Risk` in the library.
+
 ## [0.1.0] - 2026-10-27
 
 Initial release: an optimized Rust port of the deterministic analysis of

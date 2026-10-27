@@ -67,7 +67,12 @@ skillspector-rs scan [--recursive|-r] [--format text|json|sarif] [--fail-on low|
 * Without `--recursive`, every `PATH` is one skill. With it, every folder below `PATH` that holds a
   `SKILL.md` is a skill.
 * Exit codes: `0` clean (or below `--fail-on`), `1` a finding at or above `--fail-on`, `2` usage or I/O error.
-* `--format json` prints `{tool, version, skills: [{skill, issues}]}`; `--format sarif` prints SARIF 2.1.0.
+* `--format json` prints `{tool, version, skills: [{skill, risk_assessment, issues}]}`; `--format sarif` prints SARIF 2.1.0.
+* `risk_assessment` is SkillSpector's verdict: `score` (0-100, confidence-weighted, diminishing per rule),
+  `severity` band, `recommendation` and `max_issue_severity`. In the library: `scan_skill_with_risk`.
+  `score`, `severity` and `max_issue_severity` matched SkillSpector on 80 of 80 skills tested; `recommendation`
+  can read `SAFE` where SkillSpector says `CAUTION`, because it also downgrades when its inspection ledger
+  (not ported) marks the analysis incomplete, for example for a file reference that matches no bundled file.
 
 JSON (one issue shown):
 

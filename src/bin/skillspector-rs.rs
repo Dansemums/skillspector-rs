@@ -4,6 +4,7 @@
 
 use rayon::prelude::*;
 use serde_json::json;
+use skillspector_rs::Risk;
 use skillspector_rs::issue::{Issue, Severity};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
@@ -103,13 +104,21 @@ fn sarif_level(s: Severity) -> &'static str {
     }
 }
 
-fn render_text(results: &[(PathBuf, Vec<Issue>)]) -> String {
+/// One scanned skill folder: its findings and overall verdict.
+type Scanned = (PathBuf, Vec<Issue>, Risk);
+
+fn render_text(results: &[Scanned]) -> String {
     let mut out = String::new();
-    for (dir, issues) in results {
+    for (dir, issues, risk) in results {
         if issues.is_empty() {
             continue;
         }
-        out.push_str(&format!("\n{}\n", dir.display()));
+        out.push_str(&format!(
+            "\n{} (risk {}/100, {})\n",
+            dir.display(),
+            risk.score,
+            risk.recommendation
+        ));
         for i in issues {
             let line = i.start_line.map_or(String::new(), |l| format!(":{l}"));
             let found = if i.finding.is_empty() {
@@ -126,7 +135,7 @@ fn render_text(results: &[(PathBuf, Vec<Issue>)]) -> String {
             ));
         }
     }
-    let total: usize = results.iter().map(|(_, i)| i.len()).sum();
+    let total: usize = results.iter().map(|(_, i, _)| i.len()).sum();
     out.push_str(&format!(
         "\n{} skills scanned, {total} findings\n",
         results.len()
@@ -134,20 +143,31 @@ fn render_text(results: &[(PathBuf, Vec<Issue>)]) -> String {
     out
 }
 
-fn render_json(results: &[(PathBuf, Vec<Issue>)]) -> Result<String, serde_json::Error> {
+fn render_json(results: &[Scanned]) -> Result<String, serde_json::Error> {
     let skills: Vec<_> = results
         .iter()
-        .map(|(d, i)| json!({ "skill": d, "issues": i }))
+        .map(|(d, i, r)| {
+            json!({
+                "skill": d,
+                "risk_assessment": {
+                    "score": r.score,
+                    "severity": r.severity,
+                    "recommendation": r.recommendation,
+                    "max_issue_severity": r.max_issue_severity.map_or(json!("NONE"), |s| json!(s)),
+                },
+                "issues": i,
+            })
+        })
         .collect();
     serde_json::to_string_pretty(
         &json!({ "tool": "skillspector-rs", "version": env!("CARGO_PKG_VERSION"), "skills": skills }),
     )
 }
 
-fn render_sarif(results: &[(PathBuf, Vec<Issue>)]) -> Result<String, serde_json::Error> {
+fn render_sarif(results: &[Scanned]) -> Result<String, serde_json::Error> {
     let items: Vec<_> = results
         .iter()
-        .flat_map(|(dir, issues)| {
+        .flat_map(|(dir, issues, _)| {
             issues.iter().map(move |i| {
                 json!({
                     "ruleId": i.id,
@@ -201,12 +221,12 @@ fn main() -> ExitCode {
         }
     };
     let dirs = skill_dirs(&args.paths, args.recursive);
-    let scanned: Vec<(PathBuf, Result<Vec<Issue>, String>)> = dirs
+    let scanned: Vec<_> = dirs
         .par_iter()
         .map(|d| {
             (
                 d.clone(),
-                skillspector_rs::scan_skill(d).map_err(|e| e.to_string()),
+                skillspector_rs::scan_skill_with_risk(d).map_err(|e| e.to_string()),
             )
         })
         .collect();
@@ -214,7 +234,7 @@ fn main() -> ExitCode {
     let mut failed = false;
     for (dir, r) in scanned {
         match r {
-            Ok(issues) => results.push((dir, issues)),
+            Ok((issues, risk)) => results.push((dir, issues, risk)),
             Err(e) => {
                 eprintln!("error: {}: {e}", dir.display());
                 failed = true;
@@ -233,7 +253,7 @@ fn main() -> ExitCode {
     let tripped = args.fail_on.is_some_and(|min| {
         results
             .iter()
-            .flat_map(|(_, i)| i)
+            .flat_map(|(_, i, _)| i)
             .any(|i| i.severity >= min)
     });
     if failed {
