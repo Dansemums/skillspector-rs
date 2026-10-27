@@ -1,0 +1,12 @@
+changelog:
+  categories:
+    - title: Rule and parity changes
+      labels: [parity, rules]
+    - title: Bug fixes
+      labels: [bug]
+    - title: Robustness and security
+      labels: [security, robustness]
+    - title: Features
+      labels: [enhancement]
+    - title: Other changes
+      labels: ["*"]

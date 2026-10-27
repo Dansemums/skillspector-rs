@@ -1,0 +1,11 @@
+name: Feature request
+description: Suggest an improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you need
+      description: The problem first, then the idea. Check the roadmap in the README; LLM features are tracked there.
+    validations:
+      required: true

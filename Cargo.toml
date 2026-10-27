@@ -1,0 +1,58 @@
+[package]
+name = "skillspector-rs"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+description = "Optimized Rust port of NVIDIA SkillSpector: a fast static security scanner for AI agent skills (LLM features not included yet)"
+readme = "README.md"
+repository = "https://github.com/Dansemums/skillspector-rs"
+homepage = "https://github.com/Dansemums/skillspector-rs"
+documentation = "https://docs.rs/skillspector-rs"
+license = "Apache-2.0"
+keywords = ["skillspector", "agent-security", "prompt-injection", "security-scanner", "ai-security"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = [
+    ".agents/",
+    ".claude/",
+    ".github/",
+    "private-data/",
+    "tools/",
+]
+
+[lib]
+name = "skillspector_rs"
+
+[features]
+default = ["yara"]
+# Bundled YARA rules (YR1-YR4) through yara-x. Disabling it removes that heavy dependency.
+yara = ["dep:yara-x"]
+
+[[bin]]
+name = "skillspector-rs"
+path = "src/bin/skillspector-rs.rs"
+
+# Development tool: compares findings with a reference JSON produced by the Python SkillSpector.
+[[bin]]
+name = "skillspector-rs-diff"
+path = "src/bin/skillspector-rs-diff.rs"
+
+[workspace]
+
+[dependencies]
+fancy-regex = "0.14"
+rayon = "1"
+regex = "1"
+rustpython-parser = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+walkdir = "2"
+yara-x = { version = "1", optional = true, default-features = false }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }

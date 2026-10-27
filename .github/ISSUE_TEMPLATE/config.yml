@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: LLM analyzers and meta analyzer (upstream)
+    url: https://github.com/NVIDIA/SkillSpector
+    about: This project only ports the deterministic analysis. For LLM-based analysis use upstream SkillSpector.
+  - name: Report a security vulnerability
+    url: https://github.com/Dansemums/skillspector-rs/security/policy
+    about: Please follow the security policy instead of opening a public issue.

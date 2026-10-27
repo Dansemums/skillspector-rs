@@ -1,0 +1,13 @@
+/target
+.ruff_cache/
+__pycache__/
+*.pyc
+*.sarif
+# unrelated tool plugin folders
+.agents/
+.claude/
+# local reference data (see tools/README.md)
+/private-data/
+/golden/
+/corpus/
+.DS_Store

@@ -1,0 +1,16 @@
+skillspector-rs
+Copyright 2026 skillspector-rs contributors
+
+This project is a Rust port of the deterministic analysis in NVIDIA SkillSpector
+(https://github.com/NVIDIA/SkillSpector, Apache License 2.0, Copyright (c) 2026 NVIDIA CORPORATION &
+AFFILIATES). Detection rules, pattern tables, rule ids, messages and heuristics are derived from that
+project at commit d7338f58200a9ae2a24810cee08911ab68b107a7 (v2.12.0).
+
+Included third-party material from NVIDIA SkillSpector, under the same Apache License 2.0:
+  * rules/*.yar, the bundled YARA rules (YR1-YR4), copied from SkillSpector;
+  * tests/fixtures/ (except tests/fixtures/synthetic/), SkillSpector's own test fixtures;
+  * tests/data/taint_corpus.json, inputs and outputs recorded from SkillSpector's taint-tracking unit
+    tests, and the unicode confusables skeleton in src/unicode_tables.rs, copied from SkillSpector.
+Unicode tables are otherwise generated from Python's unicodedata (Unicode 15.1.0).
+
+This is an independent port and is not affiliated with or endorsed by NVIDIA.

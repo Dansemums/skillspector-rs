@@ -1,0 +1,661 @@
+{
+ "as3_self_reference": [
+  {
+   "id": "AS3",
+   "file": "README.md",
+   "start_line": 3,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "AS3",
+   "file": "README.md",
+   "start_line": 5,
+   "severity": "MEDIUM"
+  }
+ ],
+ "malicious_skill": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "P5",
+   "file": "SKILL.md",
+   "start_line": 38,
+   "severity": "CRITICAL"
+  },
+  {
+   "id": "P5",
+   "file": "SKILL.md",
+   "start_line": 38,
+   "severity": "CRITICAL"
+  },
+  {
+   "id": "E2",
+   "file": "scripts/helper.py",
+   "start_line": 15,
+   "severity": "HIGH"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  }
+ ],
+ "malicious_skill/scripts": [
+  {
+   "id": "E2",
+   "file": "helper.py",
+   "start_line": 15,
+   "severity": "HIGH"
+  },
+  {
+   "id": "E1",
+   "file": "helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "helper.py",
+   "start_line": 21,
+   "severity": "MEDIUM"
+  }
+ ],
+ "mcp_clean_skill": [
+  {
+   "id": "AST4",
+   "file": "scripts/format.py",
+   "start_line": 9,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "TT2",
+   "file": "scripts/format.py",
+   "start_line": 16,
+   "severity": "MEDIUM"
+  }
+ ],
+ "mcp_clean_skill/scripts": [
+  {
+   "id": "AST4",
+   "file": "format.py",
+   "start_line": 9,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "TT2",
+   "file": "format.py",
+   "start_line": 16,
+   "severity": "MEDIUM"
+  }
+ ],
+ "mcp_mismatched_skill": [
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP1",
+   "file": "scripts/greet.py",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "LP1",
+   "file": "scripts/greet.py",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "E2",
+   "file": "scripts/greet.py",
+   "start_line": 10,
+   "severity": "HIGH"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/greet.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  }
+ ],
+ "mcp_mismatched_skill/scripts": [
+  {
+   "id": "E2",
+   "file": "greet.py",
+   "start_line": 10,
+   "severity": "HIGH"
+  },
+  {
+   "id": "E1",
+   "file": "greet.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  }
+ ],
+ "mcp_overprivileged_skill": [
+  {
+   "id": "LP2",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  }
+ ],
+ "mcp_overprivileged_skill/scripts": [],
+ "mcp_poisoned_tool": [
+  {
+   "id": "AE4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "TP1",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "TP2",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "TP2",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "TP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "YR4",
+   "file": "SKILL.md",
+   "start_line": 3,
+   "severity": "HIGH"
+  },
+  {
+   "id": "P1",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  },
+  {
+   "id": "PE1",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "LOW"
+  },
+  {
+   "id": "P1",
+   "file": "SKILL.md",
+   "start_line": 10,
+   "severity": "HIGH"
+  }
+ ],
+ "mcp_poisoned_tool/scripts": [],
+ "mcp_registry": [],
+ "mcp_underdeclared_skill": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "AST4",
+   "file": "scripts/agent.py",
+   "start_line": 11,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/agent.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "scripts/agent.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "TT3",
+   "file": "scripts/agent.py",
+   "start_line": 12,
+   "severity": "CRITICAL"
+  }
+ ],
+ "mcp_underdeclared_skill/scripts": [
+  {
+   "id": "AST4",
+   "file": "agent.py",
+   "start_line": 11,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "agent.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "agent.py",
+   "start_line": 12,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "TT3",
+   "file": "agent.py",
+   "start_line": 12,
+   "severity": "CRITICAL"
+  }
+ ],
+ "oms": [],
+ "pe3_bare_keyring": [],
+ "safe_skill": [],
+ "sdi/sdi1_mismatch": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "summarizer.py",
+   "start_line": 8,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "summarizer.py",
+   "start_line": 8,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "summarizer.py",
+   "start_line": 9,
+   "severity": "MEDIUM"
+  }
+ ],
+ "sdi/sdi2_inappropriate": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "AST4",
+   "file": "formatter.py",
+   "start_line": 8,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "AST4",
+   "file": "formatter.py",
+   "start_line": 9,
+   "severity": "MEDIUM"
+  }
+ ],
+ "sdi/sdi3_scope_creep": [
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP1",
+   "file": "config_reader.py",
+   "start_line": 1,
+   "severity": "HIGH"
+  },
+  {
+   "id": "LP1",
+   "file": "config_reader.py",
+   "start_line": 1,
+   "severity": "HIGH"
+  }
+ ],
+ "sdi/sdi4_divergence": [
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  },
+  {
+   "id": "LP4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "LOW"
+  }
+ ],
+ "sdi/sdi_clean": [
+  {
+   "id": "E3",
+   "file": "indexer.py",
+   "start_line": 9,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "indexer.py",
+   "start_line": 26,
+   "severity": "MEDIUM"
+  }
+ ],
+ "sqp/sqp1_clean": [],
+ "sqp/sqp1_vague_triggers": [],
+ "sqp/sqp2_clean": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "AST4",
+   "file": "deploy.py",
+   "start_line": 16,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "TM1",
+   "file": "deploy.py",
+   "start_line": 16,
+   "severity": "HIGH"
+  }
+ ],
+ "sqp/sqp2_missing_warnings": [
+  {
+   "id": "LP3",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "EA2",
+   "file": "organizer.py",
+   "start_line": 19,
+   "severity": "MEDIUM"
+  }
+ ],
+ "sqp/sqp2_tool_catalog_clean": [],
+ "sqp/sqp2_tool_descriptive_step": [],
+ "sqp/sqp2_tool_instructed": [],
+ "sqp/sqp3_clean": [],
+ "sqp/sqp3_forced_language": [],
+ "sqp/sqp3_locale_forcing": [],
+ "sqp/sqp3_plain_english_clean": [],
+ "sqp/sqp3_plain_english_override": [],
+ "ssd/ssd1_semantic_injection": [],
+ "ssd/ssd2_novel_phrasing": [],
+ "ssd/ssd3_nl_exfiltration": [],
+ "ssd/ssd4_narrative_deception": [
+  {
+   "id": "TR2",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  }
+ ],
+ "ssd/ssd_clean": [],
+ "synthetic/b64": [],
+ "synthetic/benign": [],
+ "synthetic/bidi": [
+  {
+   "id": "AE4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "YR4",
+   "file": "SKILL.md",
+   "start_line": 3,
+   "severity": "HIGH"
+  },
+  {
+   "id": "P2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/conceal": [],
+ "synthetic/credential": [],
+ "synthetic/download-then-run": [],
+ "synthetic/exfil": [],
+ "synthetic/firewall": [
+  {
+   "id": "PE2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "MEDIUM"
+  }
+ ],
+ "synthetic/gatekeeper": [],
+ "synthetic/html-comment": [
+  {
+   "id": "P2",
+   "file": "SKILL.md",
+   "start_line": 6,
+   "severity": "HIGH"
+  },
+  {
+   "id": "SC2",
+   "file": "SKILL.md",
+   "start_line": 8,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/install-url": [
+  {
+   "id": "YR1",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/listener": [],
+ "synthetic/memory": [],
+ "synthetic/obfuscated": [],
+ "synthetic/override": [
+  {
+   "id": "P1",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/padding": [
+  {
+   "id": "P9",
+   "file": "SKILL.md",
+   "start_line": 6,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/persistence": [
+  {
+   "id": "RA2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "RA2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "MEDIUM"
+  }
+ ],
+ "synthetic/pipe-to-shell": [
+  {
+   "id": "SC2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/remote-exec": [],
+ "synthetic/remote-script": [],
+ "synthetic/revshell": [
+  {
+   "id": "YR1",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "CRITICAL"
+  }
+ ],
+ "synthetic/scanner": [],
+ "synthetic/shared-host": [
+  {
+   "id": "SC2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/tools": [],
+ "synthetic/tunnel": [],
+ "synthetic/unicode-tags": [
+  {
+   "id": "AE4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "P2",
+   "file": "SKILL.md",
+   "start_line": 6,
+   "severity": "HIGH"
+  }
+ ],
+ "synthetic/zw-binary": [
+  {
+   "id": "AE4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "YR4",
+   "file": "SKILL.md",
+   "start_line": 3,
+   "severity": "HIGH"
+  },
+  {
+   "id": "P2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  },
+  {
+   "id": "P9",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "MEDIUM"
+  }
+ ],
+ "synthetic/zwsp": [
+  {
+   "id": "AE4",
+   "file": "SKILL.md",
+   "start_line": 1,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "YR4",
+   "file": "SKILL.md",
+   "start_line": 3,
+   "severity": "HIGH"
+  },
+  {
+   "id": "P2",
+   "file": "SKILL.md",
+   "start_line": 5,
+   "severity": "HIGH"
+  }
+ ],
+ "tp4_markdown_fenced_code": [
+  {
+   "id": "E1",
+   "file": "SKILL.md",
+   "start_line": 15,
+   "severity": "MEDIUM"
+  },
+  {
+   "id": "E1",
+   "file": "SKILL.md",
+   "start_line": 15,
+   "severity": "MEDIUM"
+  }
+ ]
+}

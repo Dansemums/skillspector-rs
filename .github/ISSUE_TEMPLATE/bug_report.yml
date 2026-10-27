@@ -1,0 +1,25 @@
+name: Bug report
+description: Crash, hang, wrong output or a problem with the command line
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, what you got. For a panic include the full message.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: A command and, if possible, a minimal synthetic skill folder. Do not attach private skill content.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `skillspector-rs --version` or the crate version, plus OS.
+    validations:
+      required: true

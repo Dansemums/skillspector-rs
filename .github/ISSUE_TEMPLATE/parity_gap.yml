@@ -1,0 +1,44 @@
+name: Parity gap report
+description: skillspector-rs reports something different from upstream SkillSpector (--no-llm)
+labels: [parity]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not attach the contents of private skills. Reduce the case to a small synthetic
+        snippet that shows the difference.
+  - type: input
+    id: fixture
+    attributes:
+      label: Skill or fixture
+      description: Public skill name/URL or the snippet's file name.
+    validations:
+      required: true
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream SkillSpector version
+      description: For example v2.12.0 (commit d7338f5). This port targets v2.12.0.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected finding (upstream)
+      description: Rule id, file and start line, as printed by `skillspector scan --no-llm --format json`.
+      placeholder: "E1 SKILL.md:12"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual finding (skillspector-rs)
+      description: What this tool reports instead (or nothing).
+    validations:
+      required: true
+  - type: textarea
+    id: diff
+    attributes:
+      label: skillspector-rs-diff output
+      description: Output of `skillspector-rs-diff golden.json` for this case, if you ran it (see CONTRIBUTING.md).
+      render: text
