@@ -70,9 +70,10 @@ skillspector-rs scan [--recursive|-r] [--format text|json|sarif] [--fail-on low|
 * `--format json` prints `{tool, version, skills: [{skill, risk_assessment, issues}]}`; `--format sarif` prints SARIF 2.1.0.
 * `risk_assessment` is SkillSpector's verdict: `score` (0-100, confidence-weighted, diminishing per rule),
   `severity` band, `recommendation` and `max_issue_severity`. In the library: `scan_skill_with_risk`.
-  `score`, `severity` and `max_issue_severity` matched SkillSpector on 80 of 80 skills tested; `recommendation`
-  can read `SAFE` where SkillSpector says `CAUTION`, because it also downgrades when its inspection ledger
-  (not ported) marks the analysis incomplete, for example for a file reference that matches no bundled file.
+  `analysis_complete: false` (a file mentioned in `SKILL.md` that is not in the folder, a malformed manifest, a
+  parser limit) turns `SAFE` into `CAUTION`, as in SkillSpector. On 80 skills (16 fixtures and 64 real ones) the
+  whole verdict matched SkillSpector on 77; the other 3 differ only because analyzers that are not ported yet
+  (P5, TP1-TP3, SC3 for `oms`) add or remove findings.
 
 JSON (one issue shown):
 

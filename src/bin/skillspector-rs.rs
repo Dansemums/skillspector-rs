@@ -153,6 +153,7 @@ fn render_json(results: &[Scanned]) -> Result<String, serde_json::Error> {
                     "score": r.score,
                     "severity": r.severity,
                     "recommendation": r.recommendation,
+                    "analysis_complete": r.analysis_complete,
                     "max_issue_severity": r.max_issue_severity.map_or(json!("NONE"), |s| json!(s)),
                 },
                 "issues": i,

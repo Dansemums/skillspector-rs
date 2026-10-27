@@ -102,7 +102,7 @@ fn on_scan_pool<T: Send>(job: impl FnOnce() -> T + Send) -> T {
 /// # Errors
 /// Fails when the folder itself cannot be read.
 pub fn scan_skill(root: &Path) -> std::io::Result<Vec<Issue>> {
-    scan_skill_with_risk(root).map(|(issues, _)| issues)
+    on_scan_pool(|| Ok(scan_loaded(&Skill::read(root)?)))
 }
 
 /// Like [`scan_skill`], and also returns SkillSpector's overall [`Risk`] verdict for the folder.
@@ -110,32 +110,37 @@ pub fn scan_skill(root: &Path) -> std::io::Result<Vec<Issue>> {
 /// # Errors
 /// Fails when the folder itself cannot be read.
 pub fn scan_skill_with_risk(root: &Path) -> std::io::Result<(Vec<Issue>, Risk)> {
-    on_scan_pool(|| {
-        let skill = Skill::read(root)?;
-        Ok(scan_on_current_thread(&skill))
-    })
+    on_scan_pool(|| Ok(scan_loaded_with_risk(&Skill::read(root)?)))
 }
 
 /// Runs every analyzer over a skill that is already in memory.
 #[must_use]
 pub fn scan_loaded(skill: &Skill) -> Vec<Issue> {
-    scan_loaded_with_risk(skill).0
+    on_scan_pool(|| finish(run_analyzers(skill)))
 }
 
-/// Like [`scan_loaded`], and also returns the overall [`Risk`] verdict.
+/// Like [`scan_loaded`], and also returns the overall [`Risk`] verdict. The verdict costs extra
+/// passes over every file, so the plain scan functions do not compute it.
 #[must_use]
 pub fn scan_loaded_with_risk(skill: &Skill) -> (Vec<Issue>, Risk) {
-    on_scan_pool(|| scan_on_current_thread(skill))
+    on_scan_pool(|| {
+        let raw = run_analyzers(skill);
+        let risk = risk::assess(&raw, skill);
+        (finish(raw), risk)
+    })
 }
 
-fn scan_on_current_thread(skill: &Skill) -> (Vec<Issue>, Risk) {
+fn run_analyzers(skill: &Skill) -> Vec<RawFinding> {
     let analyzers = registry();
     let static_mods = static_modules();
     let refs: Vec<&dyn runner::StaticModule> = static_mods.iter().map(AsRef::as_ref).collect();
     let mut raw: Vec<RawFinding> = analyzers.par_iter().flat_map(|a| a.run(skill)).collect();
     raw.extend(runner::run_static(skill, &refs));
-    let risk = risk::assess(&raw, skill);
+    raw
+}
+
+fn finish(raw: Vec<RawFinding>) -> Vec<Issue> {
     let mut issues = dedupe::finalize(raw);
     issues.sort_by(|a, b| (&a.file, a.start_line, &a.id).cmp(&(&b.file, b.start_line, &b.id)));
-    (issues, risk)
+    issues
 }

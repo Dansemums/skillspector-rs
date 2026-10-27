@@ -428,6 +428,22 @@ pub fn resolve_references(
     source_text: &str,
     known_paths: &[&str],
 ) -> Vec<Reference> {
+    resolve(source_path, source_text, known_paths).0
+}
+
+/// Whether some mention of a file in `source_text` matches no known file, or several (SkillSpector's
+/// `missing` / `ambiguous` reference statuses, which leave the analysis incomplete).
+#[must_use]
+pub fn has_unresolved_reference(
+    source_path: &str,
+    source_text: &str,
+    known_paths: &[&str],
+) -> bool {
+    resolve(source_path, source_text, known_paths).1
+}
+
+fn resolve(source_path: &str, source_text: &str, known_paths: &[&str]) -> (Vec<Reference>, bool) {
+    let mut unresolved = false;
     let text: String = source_text.chars().take(MAX_SOURCE_CHARS).collect();
     let known: BTreeSet<&str> = known_paths.iter().copied().collect();
     let mut by_name: HashMap<&str, Vec<&str>> = HashMap::new();
@@ -456,6 +472,7 @@ pub fn resolve_references(
         } else {
             (2, None)
         };
+        unresolved |= status != 0;
         let key = (status, resolved.clone().unwrap_or_else(|| target.clone()));
         if !accepted.contains(&key) {
             if accepted.len() >= MAX_ACCEPTED {
@@ -476,7 +493,7 @@ pub fn resolve_references(
             });
         }
     }
-    out
+    (out, unresolved)
 }
 
 #[cfg(test)]

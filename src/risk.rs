@@ -9,6 +9,7 @@
 use crate::finding::RawFinding;
 use crate::issue::Severity;
 use crate::modules::concealed_executable::is_executable_content;
+use crate::modules::coverage::analysis_incomplete;
 use crate::skill::Skill;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -28,6 +29,9 @@ pub struct Risk {
     pub severity: Severity,
     /// `SAFE`, `CAUTION` or `DO_NOT_INSTALL`.
     pub recommendation: &'static str,
+    /// `false` when SkillSpector would call the analysis incomplete (a file mentioned in `SKILL.md`
+    /// that is not in the folder, a malformed manifest, a parser limit); `SAFE` then becomes `CAUTION`.
+    pub analysis_complete: bool,
     /// Worst severity among the findings, or `None` when there are none. It can be higher than
     /// `severity`, because the score is weighted by confidence.
     pub max_issue_severity: Option<Severity>,
@@ -100,11 +104,19 @@ pub(crate) fn assess(findings: &[RawFinding], skill: &Skill) -> Risk {
     let floor = scored.iter().map(|f| floor(f)).max().unwrap_or(0);
     // `as u32` truncates toward zero, like Python's int().
     let score = MAX_SCORE.min(floor.max(total as u32));
-    let (severity, recommendation) = band(score);
+    let (severity, band_recommendation) = band(score);
+    let analysis_complete = !analysis_incomplete(skill);
+    // Fail closed, like SkillSpector: an incomplete analysis is never reported as SAFE.
+    let recommendation = if band_recommendation == "SAFE" && !analysis_complete {
+        "CAUTION"
+    } else {
+        band_recommendation
+    };
     Risk {
         score,
         severity,
         recommendation,
+        analysis_complete,
         max_issue_severity: findings.iter().map(|f| f.severity).max(),
     }
 }
@@ -124,6 +136,19 @@ mod tests {
             ("a.md".to_owned(), b"x".to_vec()),
             ("run.py".to_owned(), b"x".to_vec()),
         ])
+    }
+
+    #[test]
+    fn missing_reference_downgrades_safe_to_caution() {
+        let s = Skill::from_memory(vec![(
+            "SKILL.md".to_owned(),
+            b"# s\nsee [x](references/gone.md)\n".to_vec(),
+        )]);
+        let r = assess(&[], &s);
+        assert_eq!(
+            (r.score, r.recommendation, r.analysis_complete),
+            (0, "CAUTION", false)
+        );
     }
 
     #[test]

@@ -9,7 +9,7 @@
 //! corpus), ledger/status validation (every ledger is complete here), size-limit AE7 (files are
 //! only cut at 16 MiB) and the passive-PNG exemption.
 
-use super::coverage_refs::{Reference, resolve_references};
+use super::coverage_refs::{Reference, has_unresolved_reference, resolve_references};
 use crate::analyzer::Analyzer;
 use crate::finding::RawFinding;
 use crate::issue::Severity;
@@ -40,6 +40,30 @@ const STATIC_ANALYZERS: [&str; 13] = [
     "static_patterns_system_prompt_leakage",
     "static_patterns_tool_misuse",
 ];
+
+/// Whether SkillSpector's inspection ledger would hold a partial entry for this skill, which makes
+/// it downgrade a `SAFE` verdict. Covers unresolved references of the primary file, parser and
+/// marker limits, and a malformed manifest; unreadable binaries and size limits are not tracked.
+pub(crate) fn analysis_incomplete(skill: &Skill) -> bool {
+    let primary = ["SKILL.md", "skill.md"]
+        .into_iter()
+        .find_map(|n| skill.files.iter().find(|f| f.rel == n));
+    let manifest_error = primary.is_some_and(|f| {
+        skill.manifest.is_none()
+            && String::from_utf8_lossy(&f.bytes)
+                .trim_start_matches('\u{feff}')
+                .starts_with("---")
+    });
+    let known: Vec<&str> = skill.files.iter().map(|f| f.rel.as_str()).collect();
+    let unresolved =
+        primary.is_some_and(|f| f.cached && has_unresolved_reference(&f.rel, &f.text, &known));
+    manifest_error
+        || unresolved
+        || skill
+            .files
+            .iter()
+            .any(|f| f.cached && (parse_limited(f) || marker_projection_limited(f)))
+}
 
 /// The AE1 detector.
 pub struct ReferenceCoverage;
