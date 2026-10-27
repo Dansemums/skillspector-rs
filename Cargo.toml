@@ -39,7 +39,7 @@ path = "src/bin/skillspector-rs-diff.rs"
 [workspace]
 
 [dependencies]
-fancy-regex = "0.14"
+fancy-regex = "0.19"
 rayon = "1"
 regex = "1"
 rustpython-parser = "0.4"
